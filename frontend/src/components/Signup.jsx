@@ -23,7 +23,7 @@ function Signup() {
       setLoading(true);
       setError("");
 
-      const response = await axios.post("http://localhost:3000/signup", {
+      const response = await axios.post("https://shoomigle-main-backend.onrender.com/signup", {
         username,
         password,
       });
