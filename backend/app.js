@@ -71,7 +71,7 @@ app.post('/signup', async (req, res) => {
       res.json({
         message: "Signup successful",
         token: token,
-        username:currUser.username
+        username
       });
   
     } catch (err) {
@@ -95,7 +95,7 @@ app.post('/login',async(req,res)=>{
           res.json({
             message:"login succesfully",
             token:token,
-            username
+            username:currUser.username
           })
     }
     else{
