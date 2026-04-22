@@ -94,7 +94,8 @@ app.post('/login',async(req,res)=>{
 
           res.json({
             message:"login succesfully",
-            token:token
+            token:token,
+            username
           })
     }
     else{
