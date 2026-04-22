@@ -85,6 +85,9 @@ app.post('/signup', async (req, res) => {
 app.post('/login',async(req,res)=>{
     let {username,password}=req.body;
     const currUser =await user.findOne({username})
+     if (!currUser) {
+      return res.status(401).json({ message: "User not found" });
+    }
     const match = await bcrypt.compare(password, currUser.Password); 
     if(match){
        const token =  jwt.sign({
@@ -95,7 +98,7 @@ app.post('/login',async(req,res)=>{
           res.json({
             message:"login succesfully",
             token:token,
-            username:currUser.username
+            username:username
           })
     }
     else{
