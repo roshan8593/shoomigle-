@@ -71,7 +71,7 @@ app.post('/signup', async (req, res) => {
       res.json({
         message: "Signup successful",
         token: token,
-        username
+        username:currUser.username
       });
   
     } catch (err) {
