@@ -82,29 +82,37 @@ app.post('/signup', async (req, res) => {
       }
   });
 
-app.post('/login',async(req,res)=>{
-    let {username,password}=req.body;
-    const currUser =await user.findOne({username})
-     if (!currUser) {
+app.post('/login', async (req, res) => {
+  try {
+    let { username, password } = req.body;
+    
+    const currUser = await user.findOne({ username });
+
+    if (!currUser) {
       return res.status(401).json({ message: "User not found" });
     }
-    const match = await bcrypt.compare(password, currUser.Password); 
-    if(match){
-       const token =  jwt.sign({
-            userId: currUser._id,
-            username: currUser.username
-          }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-          res.json({
-            message:"login succesfully",
-            token:token,
-            username:username
-          })
+    const match = await bcrypt.compare(password, currUser.Password);
+
+    if (match) {
+      const token = jwt.sign(
+        { userId: currUser._id, username },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+      res.json({ 
+        message: "login successfully", 
+        token, 
+        username    // ✅ comes from req.body directly
+      });
+    } else {
+      res.status(401).json({ message: "Invalid password" });
     }
-    else{
-        res.status(401).json({message:"something went wrong"})
-    }
-})
+  } catch (err) {
+    console.log("Login error:", err);
+    res.status(500).json({ message: err.message });
+  }
+});
 app.post('/logout',async(req,res)=>{
     res.json({
         message:"logout succesfully"
