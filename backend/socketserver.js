@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 
 const app = express();
 const httpServer = createServer(app);
+const port = process.env.PORT || 3010;
 
 const io = new Server(httpServer, {
   cors: {
@@ -15,7 +16,7 @@ const io = new Server(httpServer, {
 
 let textWaitingQueue = [];
 let videoWaitingQueue = [];
-
+ 
 io.on("connection", (socket) => {
   console.log("Connected:", socket.id);
 
@@ -129,6 +130,6 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(3010, () => {
-  console.log("Server running on port 3010");
+httpServer.listen(port, () => {
+  console.log(" socket Server running ");
 });
